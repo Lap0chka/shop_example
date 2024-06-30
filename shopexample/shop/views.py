@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
-from .models import Product, Category
+from .models import Category, Product
 
 
 def index(request):
@@ -13,8 +13,8 @@ def index(request):
     Returns:
         HttpResponse: The response object with the rendered template and products context.
     """
-    products = Product.available.all()  # Correcting the manager call to 'available'
-    return render(request, 'shop/index.html', {'products': products})
+    products = Product.availability.all()
+    return render(request, 'shop/products.html', {'products': products})
 
 
 def product_detail(request, slug):
@@ -30,4 +30,6 @@ def category_list(request, slug):
     View to display the products in a specific category.
     """
     category = get_object_or_404(Category, slug=slug)
-    products = Product.available.filter(category=category)  # Correcting
+    products = Product.availability.filter(category=category)
+    context = {'category': category, 'products': products}
+    return render(request, 'shop/category_list.html', context)

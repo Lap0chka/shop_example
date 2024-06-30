@@ -2,6 +2,7 @@ import random
 from string import ascii_letters, digits
 
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 
@@ -29,6 +30,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('shop:category_list', args=[self.slug])
 
     def save(self, *args, **kwargs):
         """
@@ -59,7 +63,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=248)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=99.99)
-    image = models.ImageField(upload_to='products/products/%Y/%m/%d')
+    image = models.ImageField(upload_to='products/products/%Y/%m/%d', blank=True)
     available = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -67,6 +71,9 @@ class Product(models.Model):
 
     availability = ProductManage()
     objects = models.Manager()
+
+    def get_absolute_url(self):
+        return reverse('shop:product_detail', args=[self.slug])
 
     def __str__(self):
         return self.title
