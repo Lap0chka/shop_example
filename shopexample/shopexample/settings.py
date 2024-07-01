@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # apps
     'shop',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ TEMPLATES = [
 
                 # Custom context_processors
                 'shop.context_processors.categories',
+                'cart.context_processors.cart',
             ],
         },
     },
