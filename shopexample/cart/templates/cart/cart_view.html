@@ -34,7 +34,9 @@
 
               <div class="col-6 text-end">
                 <span class="h6 fw-bold">$ {{product.price}}</span>
-
+              </div>
+              <div class="col-12 text-end">
+                <span class="h6 fw-bold">$ {{item.total}} ({{item.quantity}})</span>
               </div>
             </div>
           </div>
@@ -74,7 +76,7 @@
                 <button
                   type="button"
                   class="btn btn-danger btn-sm delete-button"
-                  data-index=""
+                  data-index="{{product.id}}"
                 >
                   Delete
                 </button>
@@ -97,7 +99,7 @@
 
     <div class="col-12 text-end">
       <div class="h6 fw-bold">
-        Total: $
+        Total: {{cart.get_total_price}}$
         <div id="total" class="d-inline-flex">
 
         </div>
@@ -117,6 +119,29 @@
 </main>
 
 <script>
+
+    $(document).on('click', '.delete-button', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:delete_to_cart" %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response){
+                document.getElementById('lblCartCount').textContent = response.qty
+                document.getElementById('total').textContent = response.total
+
+                location.reload()
+            },
+            error: function(error, status){
+                console.log(error)
+            }
+        })
+    });
 
 </script>
 

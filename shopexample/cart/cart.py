@@ -39,3 +39,17 @@ class Cart:
 
         self.cart[product_id]['quantity'] = quantity
         self.session.modified = True
+
+    def get_total_price(self):
+        total_price = sum([item['total'] for item in self.cart.values()])
+        return total_price
+
+    def update(self, product_id, quantity):
+        if product_id in self.cart:
+            self.cart[product_id]['quantity'] = quantity
+            self.session.modified = True
+
+    def delete(self, product_id):
+        if product_id in self.cart:
+            del self.cart[product_id]
+            self.session.modified = True
