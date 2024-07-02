@@ -6,7 +6,8 @@ from shop.models import Product
 
 
 def cart_view(request):
-    return render(request, 'cart/cart_view.html')
+    cart = Cart(request)
+    return render(request, 'cart/cart_view.html', {'cart': cart})
 
 
 def cart_add(request):

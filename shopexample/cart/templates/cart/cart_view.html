@@ -5,7 +5,8 @@
     <h1 class="h5">Shopping cart</h1>
 
     <hr />
-
+    {% for item in cart %}
+    {% with product=item.product %}
     <br />
 
     <div class="row mb-4 border product-item">
@@ -14,7 +15,7 @@
           class="img-fluid mx-auto d-block"
           width="200px"
           alt="Responsive image"
-          src=""
+          src="{{ product.image.url }}"
         />
       </div>
 
@@ -23,20 +24,16 @@
           href=""
           class="text-info text-decoration-none"
         >
-          <h1 class="h5 pt-2">Title</h1>
+          <h1 class="h5 pt-2">{{product.title}}</h1>
         </a>
 
         <div class="border">
           <div class="col border-bottom">
             <div class="row p-3">
-              <div class="col-6">Product</div>
+              <div class="col-6">{{product.brand}}</div>
 
               <div class="col-6 text-end">
-
-                <span class="text-decoration-line-through fw-bold text-danger">$ </span>
-                <span class="h6 fw-bold">$ 99</span>
-
-                <span class="h6 fw-bold">$ </span>
+                <span class="h6 fw-bold">$ {{product.price}}</span>
 
               </div>
             </div>
@@ -50,7 +47,7 @@
                 &nbsp;
 
                 <select id="select">
-                  <option selected></option>
+                  <option selected>{{item.quantity}}</option>
 
                   <option value="">1</option>
 
@@ -95,7 +92,8 @@
       </div>
 
     </div>
-
+    {% endwith %}
+    {% endfor %}
 
     <div class="col-12 text-end">
       <div class="h6 fw-bold">
