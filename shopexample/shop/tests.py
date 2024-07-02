@@ -6,6 +6,14 @@ from shop.models import Category, Product
 
 
 class ProductViewTest(TestCase):
+    """
+    Test case for testing the views related to products in the shop application.
+
+    This class contains test methods to verify the behavior of product views, such as retrieving products and their details.
+
+    Test Methods:
+        - test_get_products: Tests the retrieval of products and verifies the response status code, product count, product list, and content.
+    """
     def test_get_products(self):
         small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04'
@@ -31,6 +39,13 @@ class ProductViewTest(TestCase):
 
 
 class ProductDetailViewTest(TestCase):
+    """
+    Test case for the Product Detail View.
+
+    This class contains test methods to verify the behavior of the Product Detail View in the shop application.
+    It tests the retrieval of a product by its slug, ensuring that the correct product is displayed and that the response is successful.
+
+    """
     def test_get_product_by_slug(self):
         # Create a product
         small_gif = (
@@ -57,6 +72,13 @@ class ProductDetailViewTest(TestCase):
 
 
 class CategoryListViewTest(TestCase):
+    """
+    Test case for testing the CategoryListView view.
+
+    This class contains test methods to verify the behavior of the CategoryListView view in the shop application.
+    The tests include checking the status code, the template used, and the context data returned by the view.
+
+    """
     def setUp(self):
         small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04'

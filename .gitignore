@@ -1,4 +1,4 @@
-venv_women/
+venv_shop_example/
 # Django #
 *.log
 *.pot
@@ -240,7 +240,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-*.sqlite3
 media/
 *.pyc
 *.db
