@@ -26,6 +26,11 @@ def cart_add(request):
 
 def cart_update(request):
     cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        product_id = request.POST.get('product_id')
+        product_qty = int(request.POST.get('product_qty'))
+        cart.update(product_id, product_qty)
+        return HttpResponse(status=200)
 
 
 def delete_product(request):
