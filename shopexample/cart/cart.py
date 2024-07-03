@@ -49,7 +49,10 @@ class Cart:
             self.cart[product_id]['quantity'] = quantity
             self.session.modified = True
 
-    def delete(self, product_id):
+    def delete(self, product_id, quantity=2):
         if product_id in self.cart:
-            del self.cart[product_id]
+            if self.cart[product_id]['quantity'] <= quantity:
+                del self.cart[product_id]
+            else:
+                self.cart[product_id]['quantity'] -= quantity
             self.session.modified = True

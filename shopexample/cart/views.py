@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from cart.cart import Cart
@@ -32,7 +32,6 @@ def delete_product(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
         product_id = request.POST.get('product_id')
-        cart.delete(product_id)
-        cart_qty = cart.__len__()
-        response = JsonResponse({'qty': cart_qty})
-        return response
+        product_qty = int(request.POST.get('product_qty'))
+        cart.delete(product_id, product_qty)
+        return HttpResponse(status=200)
