@@ -1,9 +1,14 @@
 from decimal import Decimal
+from unicodedata import decimal
 
 from shop.models import Product
 
 
 class Cart:
+    """
+    Represents a shopping cart for storing and managing products and quantities.
+    Allows adding, updating, deleting products, calculating total price, and iterating over cart items.
+    """
     def __init__(self, request):
 
         self.session = request.session
@@ -41,7 +46,7 @@ class Cart:
         self.session.modified = True
 
     def get_total_price(self):
-        total_price = sum([item['total'] for item in self.cart.values()])
+        total_price = sum([Decimal(item['price'])*item['quantity'] for item in self.cart.values()])
         return total_price
 
     def update(self, product_id, quantity):
