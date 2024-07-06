@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    <title>Email confirmation</title>
+<title>Email confirmation</title>
 {% endblock title %}
 
 {% block content %}
@@ -10,43 +10,44 @@
 <div class="container bg-white shadow-md p-3">
     {% if success %}
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Электронная почта подтверждена</h4>
-            <p>Ваш адрес электронной почты успешно подтвержден. Спасибо за регистрацию!</p>
-            <p>You will be redirected to the home page in <span  id="timer"></span> seconds</p>
-        </div>
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Email Verified</h4>
+        <p>Your email address has been successfully verified. Thank you for registering!</p>
+        <p>You will be redirected to the home page in <span id="timer"></span> seconds</p>
+    </div>
 
     {% else %}
     <div class="alert alert-danger" role="alert">
-        <h4 class="alert-heading">Ошибка подтверждения по электронной почте</h4>
-        <p>Ссылка для подтверждения по электронной почте недействительна или срок ее действия истек. Пожалуйста, зарегистрируйтесь снова.</p>
+        <h4 class="alert-heading">Email Verification Error</h4>
+        <p>The email verification link is invalid or has expired. Please register again.</p>
     </div>
     {% endif %}
+
 
 </div>
 
 <script>
 
     // Set a timeout to redirect the user to the other page after 10 seconds
-    
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         // Set the initial timer value
         var timerValue = 7;
         $('#timer').html(timerValue);
-        
+
         // Start a timer that updates the timer every second
-        setInterval(function() {
+        setInterval(function () {
             // Update the timer value
             timerValue--;
-    
+
             // Display the timer value
             $('#timer').html(timerValue);
-    
+
             // If the timer value reaches 0, stop the timer
             if (timerValue === 0) {
                 window.location.href = '{% url "shop:index" %}';
             }
         }, 1000);
     });
-    </script>
+</script>
 {% endblock content %}

@@ -1,6 +1,6 @@
 from typing import Any
 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import forms
 
@@ -15,7 +15,6 @@ class UserRegisterForm(UserCreationForm):
         self.fields['username'].help_text = False
         self.fields['password1'].help_text = False
         self.fields['email'].required = True
-
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
