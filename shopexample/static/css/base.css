@@ -65,3 +65,11 @@ a {
         text-align: center;
     }
 }
+
+#timer {
+    font-family: sans-serif;
+    font-size: 24px;
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+}
