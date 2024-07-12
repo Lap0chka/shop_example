@@ -27,3 +27,9 @@ class UserUpdateForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email is already used")
+        return email
