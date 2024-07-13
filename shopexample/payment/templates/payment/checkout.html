@@ -10,8 +10,8 @@
 
 <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
 
-    <form id="form">
-
+    <form id="form" method="POST" action='{% url "payment:complete_order" %}'>
+    {%csrf_token%}
         <div>
 
             <h3><i class="fa fa-chevron-circle-right" aria-hidden="true"></i> &nbsp; Complete your order </h3>
@@ -103,7 +103,7 @@
         <br>
 
 
-        <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order
+        <button id="complete-order" type="submit" name="stripe-payment" value="stripe-payment" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order
         </button>
 
 
@@ -123,40 +123,5 @@
 
 
 <!-- Ajax integration -->
-
-
-<script>
-    $(document).on('submit', function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            type: 'POST',
-            url: '{% url "payment:complete_order" %}',
-            data: {
-                name: $('#name').val(),
-                email: $('#email').val(),
-                street_address: $('#address1').val(),
-                apartment_address: $('#address2').val(),
-                // city: $('#city').val(),
-                contry: $('#state').val(),
-                zipcode: $('#zipcode').val(),
-
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'payment'
-            },
-            success: function (response) {
-                window.location.replace('{% url "payment:payment_success" %}')
-
-            },
-            error: function (error) {
-                window.location.replace('{% url "payment:payment_failed" %}')
-            }
-        })
-
-    })
-
-
-</script>
-
 
 {% endblock %}
