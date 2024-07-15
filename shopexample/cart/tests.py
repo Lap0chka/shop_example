@@ -3,7 +3,6 @@ import json
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
-
 from shop.models import Category, Product
 
 from .views import cart_add, cart_update, cart_view, delete_product

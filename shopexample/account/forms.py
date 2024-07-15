@@ -1,6 +1,6 @@
 from typing import Any
 
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import forms
 

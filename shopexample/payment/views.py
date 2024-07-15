@@ -1,15 +1,14 @@
 from decimal import Decimal
 
 import stripe
+from cart.cart import Cart
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-
-from cart.cart import Cart
 from payment.forms import ShippingForm
-from payment.models import ShippingAddress, Order, OrderItem
-from django.conf import settings
+from payment.models import Order, OrderItem, ShippingAddress
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -90,8 +89,9 @@ def complete_order(request):
                 },
                 'quantity': item['quantity']
             })
-            session = stripe.checkout.Session.create(**session_data)
-            return redirect(session.url, code=303)
+        session_data['client_reference_id'] = order.id
+        session = stripe.checkout.Session.create(**session_data)
+        return redirect(session.url, code=303)
     else:
         order = Order.objects.create(
             shipping_address=shipping_address, amount=total_price)
@@ -99,6 +99,20 @@ def complete_order(request):
         for item in cart:
             OrderItem.objects.create(
                 order=order, product=item['product'], price=item['price'], quantity=item['qty'])
+
+            session_data['line_items'].append({
+                'price_data': {
+                    'unit_amount': int(item['price'] * Decimal(100)),
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': item['product'],
+                    },
+                },
+                'quantity': item['quantity']
+            })
+        session_data['client_reference_id'] = order.id
+        session = stripe.checkout.Session.create(**session_data)
+        return redirect(session.url, code=303)
 
 
 def payment_success(request):

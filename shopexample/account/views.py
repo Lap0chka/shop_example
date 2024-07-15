@@ -1,12 +1,11 @@
+from account.forms import UserRegisterForm, UserUpdateForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django_email_verification import send_email
-
-from account.forms import UserRegisterForm, UserUpdateForm
 
 
 def register(request):

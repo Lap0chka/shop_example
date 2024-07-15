@@ -1,7 +1,6 @@
+from cart.cart import Cart
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
-
-from cart.cart import Cart
 from shop.models import Product
 
 
