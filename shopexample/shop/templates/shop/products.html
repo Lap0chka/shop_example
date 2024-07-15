@@ -4,7 +4,7 @@
 
 
     <!-- Introduction section -->
-
+{% if not request.user.is_authenticated %}
 <section class="py-4 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
@@ -16,11 +16,11 @@
 
         <br />
 
-        <a href="#" class="btn btn-success my-2"> Create an account </a>
+        <a href="{% url 'account:register' %}" class="btn btn-success my-2"> Create an account </a>
       </div>
     </div>
   </section>
-
+{%endif%}
   <!-- All products section -->
 
   <section class="album py-5 bg-light">
