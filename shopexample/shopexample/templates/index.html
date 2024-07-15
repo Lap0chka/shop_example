@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} WELCOME {%endblock%}
+{%block css%}<link rel="stylesheet" href="{% static 'css/index.css' %}">{% endblock %}
+{%block menu%}{%endblock%}
+{%block content%}
+  <body style="font-family: 'Montserrat', sans-serif;">
+    <div id="welcome" class="welcome" >Welcome to BigCorp</div>
+    <a href="http://127.0.0.1:8000/shop/"><div id="box1" class="box box1">Shop</div></a>
+    <div class="box box2">News</div>
+    <div class="box box3">Etc</div>
+  </body>
+<script src="{% static 'js/box-change.js' %}"></script>
+{%endblock%}
+
+

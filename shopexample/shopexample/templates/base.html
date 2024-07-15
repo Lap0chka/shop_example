@@ -49,6 +49,7 @@
             crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/montserrat:wght@300,400,500.css' %}"/>
     {%block css%} {%endblock%}
     <title>{%block title%}BigCorp{%endblock%}</title>
 
@@ -58,6 +59,7 @@
 </head>
 
 <body>
+{% block menu %}
 <div class="superNav border-bottom py-2 bg-light">
     <div class="container">
         <div class="row">
@@ -208,37 +210,37 @@
                  </span>
                     </a>
                 </li>
-                 {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
 
-              <li class="nav-item">
-                <a class="nav-link mx-2 text-uppercase" href="{% url 'account:dashboard' %}"
-                  ><i class="fa-solid fa-circle-user me-1"></i>@{{ user.username }} Account</a
-                >
-              </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:dashboard' %}"
+                    ><i class="fa-solid fa-circle-user me-1"></i>@{{ user.username }} Account</a
+                    >
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link mx-2 text-uppercase" href="{% url 'account:logout' %}"
-                  ><i class="fa-solid fa-circle-user me-1"></i> Logout</a
-                >
-              </li>
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link mx-2 text-uppercase" href="{% url 'account:register' %}"
-                  ><i class="fa-solid fa-circle-user me-1"></i> Register</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link mx-2 text-uppercase" href="{% url 'account:login' %}"
-                  ><i class="fa-solid fa-circle-user me-1"></i> Login</a
-                >
-              </li>
-              {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:logout' %}"
+                    ><i class="fa-solid fa-circle-user me-1"></i> Logout</a
+                    >
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:register' %}"
+                    ><i class="fa-solid fa-circle-user me-1"></i> Register</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:login' %}"
+                    ><i class="fa-solid fa-circle-user me-1"></i> Login</a
+                    >
+                </li>
+                {% endif %}
 
             </ul>
         </div>
     </div>
 </nav>
-
+{%endblock%}
 {% block content %}
 {% endblock %}
 </body>
