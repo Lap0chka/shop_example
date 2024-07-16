@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_email_verification',
     'django_google_fonts',
+    'django_celery_beat',
+    'django_celery_results',
 
     # apps
     'shop',
@@ -195,3 +197,13 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
 
 GOOGLE_FONTS = ['Montserrat:wght@300,400', 'Roboto']
 GOOGLE_FONTS_DIR = BASE_DIR / 'static'
+
+# Celery
+
+
+#Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
