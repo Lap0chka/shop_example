@@ -21,12 +21,17 @@
                 Profile-management
                 </button>
             </a>
-
+          <a href="{% url 'payment:shipping' %}">
+                <button class="btn btn-warning">
+                    Shipping info
+                    </button>
+                </a>
             <a href="{% url 'account:profile_delete' %}">
                 <button class="btn btn-warning">
                     Delete Account
                     </button>
                 </a>
+
 
     </div>
 {% endblock %}

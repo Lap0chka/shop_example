@@ -33,3 +33,4 @@ def category_list(request, slug):
     products = Product.availability.filter(category=category)
     context = {'category': category, 'products': products}
     return render(request, 'shop/category_list.html', context)
+
