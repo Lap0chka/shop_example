@@ -16,6 +16,7 @@
 <body>
 {% block menu %}
 {% include 'includes/nav_bar.html' %}
+{% include 'includes/messages.html' %}
 {%endblock%}
 {% block content %}
 {% endblock %}
@@ -23,4 +24,5 @@
 {% include 'includes/footer.html'%}
 {%endblock%}
 </body>
+  <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
 </html>

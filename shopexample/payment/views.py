@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from payment.forms import ShippingForm
+from payment.forms import ShippingForm, ShippingFormWithSave
 from payment.models import Order, OrderItem, ShippingAddress
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -33,7 +33,7 @@ def shipping_view(request):
             shipping_address.save()
             return redirect('account:dashboard')
     else:
-        form = ShippingForm(instance=shipping_address)
+        form = ShippingForm(instance=shipping_address, )
 
     return render(request, 'payment/shipping/shipping.html', {'form': form})
 
@@ -45,7 +45,7 @@ def checkout(request):
         except TypeError:
             shipping_address = None
 
-    shipping_address = ShippingForm(instance=shipping_address)
+    shipping_address = ShippingFormWithSave(instance=shipping_address)
     return render(request, 'payment/checkout.html', {'shipping_address': shipping_address})
 
 
@@ -57,6 +57,14 @@ def complete_order(request):
             if request.user.is_authenticated:
                 user = request.user
                 shipping_address.user = user
+                is_save = form.cleaned_data['is_save', False]
+                if is_save:
+                    try:
+                        shipping_address_old = ShippingAddress.objects.get(user=user)
+                        shipping_address_old.delete()
+                    except TypeError:
+                        pass
+                shipping_address.save()
             else:
                 user = None
                 shipping_address.save()

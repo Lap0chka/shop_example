@@ -1,20 +1,23 @@
-from django.shortcuts import get_object_or_404, render
+
+
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import ListView
 
 from .models import Category, Product
 
 
-def index(request):
-    """
-    View to display the index page with a list of available products.
+class ProductListView(ListView):
+    model = Product
+    context_object_name = "products"
+    paginate_by = 15
 
-    Args:
-        request (HttpRequest): The request object.
+    def get_queryset(self):
+        return Product.availability.all()
 
-    Returns:
-        HttpResponse: The response object with the rendered template and products context.
-    """
-    products = Product.availability.all()
-    return render(request, 'shop/products.html', {'products': products})
+    def get_template_names(self):
+        if self.request.htmx:
+            return "shop/components/product_list.html"
+        return "shop/products.html"
 
 
 def product_detail(request, slug):
@@ -34,3 +37,11 @@ def category_list(request, slug):
     context = {'category': category, 'products': products}
     return render(request, 'shop/category_list.html', context)
 
+
+def search_products(request):
+    query = request.GET['q']
+    if not query:
+        return redirect('shop:products')
+    products = Product.availability.filter(title__icontains=query).distinct()
+    context = {'products': products}
+    return render(request, 'shop/products.html', context)

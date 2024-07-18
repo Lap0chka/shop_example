@@ -13,6 +13,7 @@ urlpatterns = [
     path('cart/', include('cart.urls', namespace='cart')),
     path('account/', include('account.urls', namespace='account')),
     path('payment/', include('payment.urls', namespace='payment')),
+    path('reccomend/', include('recommend.urls', namespace='recommend')),
     path('email/', include(email_urls), name='email-verification')
 ]
 

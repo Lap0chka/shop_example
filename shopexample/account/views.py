@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django_email_verification import send_email
 
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -46,7 +47,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('shop:index')
+    return redirect('shop:products')
 
 
 @login_required(login_url='account:login')
@@ -73,3 +74,6 @@ def delete_account(request):
         user.delete()
         return redirect('shop:index')
     return redirect(request, 'account/dashboard/profile_user.html')
+
+
+
