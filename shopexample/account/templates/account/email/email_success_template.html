@@ -2,7 +2,7 @@
 
 
 {% block title %}
-<title>Email confirmation</title>
+Email confirmation
 {% endblock title %}
 
 {% block content %}
@@ -45,7 +45,7 @@
 
             // If the timer value reaches 0, stop the timer
             if (timerValue === 0) {
-                window.location.href = '{% url "shop:index" %}';
+                window.location.href = '{% url "shop:products" %}';
             }
         }, 1000);
     });

@@ -61,6 +61,12 @@ def profile_user(request):
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+            user = request.user
+            user.is_active = False
+            user.save()
+            messages.success(request, 'Your account has been updated! '
+                                      'You need to confirm your new email address')
+            send_email(request.user)
             return redirect('account:dashboard')
     else:
         form = UserUpdateForm(instance=request.user)

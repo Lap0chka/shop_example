@@ -1,8 +1,8 @@
 from typing import Any
 
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
-from django.forms import forms
+from django import forms
 
 
 class UserRegisterForm(UserCreationForm):
@@ -28,8 +28,13 @@ class UserUpdateForm(UserChangeForm):
         model = User
         fields = ['username', 'email']
 
+
+
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Email is already used")
         return email
+
+
+
