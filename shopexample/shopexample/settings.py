@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_htmx',
     'sorl.thumbnail',
+
     # apps
     'shop',
     'cart',
     'account',
     'payment',
+    'recommend',
 ]
 
 MIDDLEWARE = [
@@ -210,15 +212,12 @@ CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
-
 # Message
 
 MESSAGE_TAGS = {
-        messages.DEBUG: 'alert-secondary',
-        messages.INFO: 'alert-info',
-        messages.SUCCESS: 'alert-success',
-        messages.WARNING: 'alert-warning',
-        messages.ERROR: 'alert-danger',
- }
-
-
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

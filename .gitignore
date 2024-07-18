@@ -9,7 +9,8 @@ media
 
 # Backup files #
 *.bak
-
+.dump.rdb/
+.dump
 .idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -97,6 +98,8 @@ celerybeat-schedule.*
 # SageMath parsed files
 *.sage.py
 
+.migrations
+.migrations/
 # Environments
 .env
 .venv
@@ -244,3 +247,4 @@ media/
 *.pyc
 *.db
 *.pid
+migrations/
