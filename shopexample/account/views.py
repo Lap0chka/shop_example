@@ -1,12 +1,11 @@
 from account.forms import UserRegisterForm, UserUpdateForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django_email_verification import send_email
-
 
 
 def register(request):
@@ -60,13 +59,10 @@ def profile_user(request):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            user = request.user
-            user.is_active = False
-            user.save()
+            user = form.save(user=request.user)
             messages.success(request, 'Your account has been updated! '
                                       'You need to confirm your new email address')
-            send_email(request.user)
+            update_session_auth_hash(request, user)
             return redirect('account:dashboard')
     else:
         form = UserUpdateForm(instance=request.user)
@@ -80,6 +76,3 @@ def delete_account(request):
         user.delete()
         return redirect('shop:index')
     return redirect(request, 'account/dashboard/profile_user.html')
-
-
-

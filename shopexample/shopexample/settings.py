@@ -16,7 +16,7 @@ env.read_env(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-w67!#c#9tr&1wp-o2+0(4f#21e51-g)*i-uu$xf0qf6h(sk#^g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,25 +88,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shopexample.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DB"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        'HOST': 'db',
-        "PORT": 5432,
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("POSTGRES_DB"),
+            "USER": env("POSTGRES_USER"),
+            "PASSWORD": env("POSTGRES_PASSWORD"),
+            'HOST': 'db',
+            "PORT": 5432,
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -137,14 +137,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 # Static, media
 STATIC_URL = 'static/'
 if DEBUG:
     STATICFILES_DIRS = [
-        BASE_DIR / 'static'
+        BASE_DIR / 'static',
     ]
 else:
     STATIC_ROOT = BASE_DIR / 'static'
@@ -193,14 +191,16 @@ EMAIL_MAIL_CALLBACK = email_verified_callback
 # EMAIL_PASSWORD_PLAIN = 'password_body.txt'
 # EMAIL_PASSWORD_TOKEN_LIFE = 60 * 10  # 10 minutes
 #
-# # Password Recovery Settings (mandatory for builtin view)
-# EMAIL_PASSWORD_PAGE_TEMPLATE = 'password_changed_template.html'
-# EMAIL_PASSWORD_CHANGE_PAGE_TEMPLATE = 'password_change_template.html'
-# EMAIL_PASSWORD_CALLBACK = password_change_callback
+# Password Recovery Settings (mandatory for builtin view)
+EMAIL_PASSWORD_PAGE_TEMPLATE = 'password_changed_template.html'
+EMAIL_PASSWORD_CHANGE_PAGE_TEMPLATE = 'password_change_template.html'
+EMAIL_PASSWORD_CALLBACK = password_change_callback
 
 # For Django Email Backend
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
