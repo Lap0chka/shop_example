@@ -7,15 +7,11 @@ from django_email_verification import send_email
 
 
 class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super(UserRegisterForm, self).__init__(*args, **kwargs)
-        self.fields['username'].help_text = False
-        self.fields['password1'].help_text = False
-        self.fields['email'].required = True
+        fields = ('username', 'email', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
@@ -23,53 +19,69 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError("Email is already used")
         return email
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.is_active = False
+
+        if commit:
+            user.save()
+            send_email(user)
+
+        return user
+
+
+
+
 
 class UserUpdateForm(forms.ModelForm):
     new_email = forms.EmailField(required=False)
-    password = forms.CharField(label='Old password', widget=forms.PasswordInput, required=False)
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
-    password2 = forms.CharField(label='Password confirm', widget=forms.PasswordInput, required=False)
+    password = forms.CharField(label='Current password', widget=forms.PasswordInput, required=False)
+    password1 = forms.CharField(label='New password', widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label='Confirm new password', widget=forms.PasswordInput, required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', ]
-        read_only_fields = ('email',)
+        fields = ['username', 'email']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs['readonly'] = True
-        self.fields['email'].disabled = True
+        self.fields['email'].disabled = True  # email только для отображения
 
     def clean(self):
         cleaned_data = super().clean()
+        email = cleaned_data.get('email', '').lower()
+        new_email = cleaned_data.get('new_email', '').lower()
 
-        email = cleaned_data['email'].lower()
-        new_email = cleaned_data['new_email'].lower()
+        if new_email:
+            if email == new_email:
+                raise ValidationError("New email and current email are the same.")
 
-        if email == new_email:
-            raise forms.ValidationError("New email and old are the same")
-
-        if User.objects.filter(email=new_email).exists():
-            raise forms.ValidationError("Email is already used")
+            if User.objects.filter(email=new_email).exists():
+                raise ValidationError("Email is already in use.")
 
         password = cleaned_data.get('password')
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
-        user = User.objects.get(email=email)
 
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("New passwords do not match.")
+        if password1 or password2:
+            if password1 != password2:
+                raise ValidationError("New passwords do not match.")
 
-        if password and user.check_password(password):
-            raise forms.ValidationError("Current password is incorrect.")
+            if not password:
+                raise ValidationError("Current password is required to change password.")
+
+            if not self.instance.check_password(password):
+                raise ValidationError("Current password is incorrect.")
 
         return cleaned_data
 
     def save(self, commit=True, user=None):
+        user = user or self.instance  # fallback на self.instance
 
-        email = self.cleaned_data.get('new_email')
-        if email:
-            user.email = email
+        new_email = self.cleaned_data.get('new_email')
+        if new_email:
+            user.email = new_email
             user.is_active = False
             send_email(user)
 

@@ -9,18 +9,18 @@ app_name = 'account'
 
 urlpatterns = [
     # Registration and verification
-    path('register/', views.register, name='register'),
+    path('register/', views.UserRegisterView.as_view(), name='register'),
     path('email-verification-sent/',
          lambda request: render(request, 'account/email/email-verification-sent.html'),
          name='email_verification_sent'
          ),
     # Login and Logout
-    path('login/', views.login_user, name='login'),
-    path('logout/', views.logout_user, name='logout'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     # Dashboard
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('profile/', views.profile_user, name='profile_user'),
-    path('delete-account/', views.delete_account, name='profile_delete'),
+    path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('profile/', views.UserProfileUpdateView.as_view(), name='profile_user'),
+    path('delete-account/', views.DeleteAccountView.as_view(), name='profile_delete'),
     # Password reset
     path('password-reset/', auth_views.PasswordResetView.as_view(
         template_name='account/password/password-reset.html',
