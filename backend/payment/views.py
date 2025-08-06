@@ -1,17 +1,17 @@
 from decimal import Decimal
 
+import pdfkit
 import stripe
-import weasyprint
+from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.templatetags.static import static
+from django.urls import reverse
 
 from cart.cart import Cart
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from payment.forms import ShippingForm, ShippingFormWithSave
 from payment.models import Order, OrderItem, ShippingAddress
 
@@ -122,6 +122,6 @@ def admin_order_pdf(request, order_id):
     response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
     css_path = static('css/pdf.css').lstrip('/')
     # css_path = 'static/payment/css/pdf.css'
-    stylesheets = [weasyprint.CSS(css_path)]
-    weasyprint.HTML(string=html).write_pdf(response, stylesheets=stylesheets)
+    pdf = pdfkit.from_string(html, False, css=css_path)
+    response.write(pdf)
     return response
