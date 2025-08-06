@@ -1,127 +1,121 @@
-# 🧩 Django Starter Template
+🛒 Online Store (Django-based)
 
-Этот репозиторий — шаблон (boilerplate) для быстрого старта проектов на Django.  
-Он включает различные конфигурации: от базового Django до связок с Celery, Redis и Django REST Framework (DRF).
+A fully featured e-commerce web application built using Django 5.2.5, REST API, Celery, Stripe integration, admin tools, and more.
 
-## 🗂 Ветки репозитория
+⸻
 
-- **`main`** — базовый Django-проект
-- **`django-celery`** — Django + Celery + Redis
-- **`drf`** — Django REST Framework (DRF)
-- **`drf-celery`** — DRF + Celery + Redis
+🚀 Features
+	•	🧑‍💻 JWT-based authentication using Djoser + SimpleJWT
+	•	✅ Email verification
+	•	🔐 Social login (OAuth)
+	•	📦 Product and order management via REST API
+	•	💸 Stripe payment integration
+	•	📄 PDF generation with WeasyPrint
+	•	📧 Email notifications
+	•	🖼 Image caching with sorl-thumbnail
+	•	⏱ Background tasks with Celery
+	•	⏲ Periodic tasks with django-celery-beat
+	•	📐 Admin UI with crispy-bootstrap5
+	•	🌐 Google Fonts integration
+	•	⚡ HTMX support
+	•	📚 Interactive API docs via Swagger (drf-yasg)
 
-Каждая ветка содержит готовую структуру проекта, настроенные зависимости и базовые шаблоны для разработки.
+⸻
 
-## 🚀 Установка
-1. Переименование папки `backend` (по желанию)**  
-   Если необходимо, переименуйте папку `backend` на более удобное имя.  
+🧰 Tech Stack / Requirements
 
-2**🐍 Установка и активация виртуального окружения**
-   1. Создайте виртуальное окружение:
-      ```bash
-      python3 -m venv venv
-      ```
-   2. Активируйте его:
-      ```bash
-      source venv/bin/activate
-      ```
-   3. Установите зависимости:
-      ```bash
-      pip install -r requirements.txt
-      ```
-   ⚠️ Убедитесь, в `.gitignore` указана папка `venv`.  
-   Если вы переименуете окружение, не забудьте также изменить:
-   - [.gitignore](.gitignore)`.gitignore`
-   - настройки [linter.sh](linter.sh)
-   - [pyproject.toml](pyproject.toml)`pyproject.toml`, если используется
+Here are the main libraries used in this project:
 
-
-3. **🔐 Создание `.env` файла**  
-   Скопируйте шаблон переменных окружения:
-   ```bash
-   cp .env_sample .env
-   
-4. 🐳 Запуск Docker Compose
-📌 Обратите внимание: используется порт базы данных 5412, а не стандартный 5432:
-
-docker-compose up --build
-
-5. 🔁 Смена удалённого репозитория Git
-   1.	Удалите текущий origin:
-        git remote remove origin
-   2. Убедитесь, что удалённые репозитории удалены:
-        git remote -v
-   3. Добавьте новый origin
-      git remote add origin <новый-url>
-
-6. ⚙️ Запуск проекта
-   1. cd проект
-   2. ./manage.py runserver
-
-
-### ⚙️ Pre-commit хуки
-
-В проекте настроен [pre-commit](https://pre-commit.com/) 
-— инструмент, который запускает линтеры и форматтеры автоматически при коммите.
-
-#### 📦 Установка
-
-```bash
-pre-commit install
-```
-
-> После этого хуки будут автоматически запускаться при каждом `git commit`.
-
-#### 🚀 Ручной запуск
-
-```bash
-pre-commit run --all-files
-```
-
-
-В проекте используются [django-extensions](https://django-extensions.readthedocs.io/) 
-— набор полезных утилит для разработки.
-
-#### 🔧 Полезные команды
-
-| Команда           | Описание                                                  |
-|------------------|-----------------------------------------------------------|
-| `shell_plus`     | Улучшенная оболочка Python с автоимпортами моделей        |
-| `runserver_plus` | Расширенный сервер с отладчиком Werkzeug                  |
-| `show_urls`      | Список всех URL и их имён                                 |
-| `graph_models`   | Визуализация моделей и связей в PNG/Graphviz              |
-
-#### 🧪 Примеры
-
-```bash
-python manage.py shell_plus
-python manage.py runserver_plus
-python manage.py show_urls
-python manage.py graph_models app_name -o graph.png
-```
-
----
-
-### 🐞 Django Debug Toolbar
-
-[django-debug-toolbar](https://django-debug-toolbar.readthedocs.io/) — 
-мощный инструмент для профилирования и отладки запросов в Django-приложении.
-
-### 🕓 Django Simple History
-
-[django-simple-history](https://django-simple-history.readthedocs.io/) —
-библиотека, которая сохраняет историю изменений моделей Django.
-
-#### 🔍 Зачем нужно
-
-- 🔒 **Аудит** — кто и когда изменил данные
-- 🕵️ **Отладка** — легко понять, какие значения были раньше
-- ⏪ **Откат** — можно восстановить предыдущую версию записи
+amqp==5.3.1  
+asgiref==3.9.1  
+billiard==4.2.1  
+Brotli==1.1.0  
+celery==5.5.3  
+certifi==2025.8.3  
+cffi==1.17.1  
+charset-normalizer==3.4.2  
+click==8.2.1  
+click-didyoumean==0.3.1  
+click-plugins==1.1.1.2  
+click-repl==0.3.0  
+crispy-bootstrap5==2025.6  
+cron-descriptor==1.4.5  
+cryptography==45.0.6  
+cssselect2==0.8.0  
+defusedxml==0.7.1  
+deprecation==2.1.0  
+Django==5.2.5  
+django-celery-beat==2.8.1  
+django-crispy-forms==2.4  
+django-email-verification==0.3.3  
+django-environ==0.12.0  
+django-google-fonts==0.0.3  
+django-htmx==1.23.2  
+django-timezone-field==7.1  
+django_celery_results==2.6.0  
+djangorestframework==3.16.1  
+djangorestframework_simplejwt==5.5.1  
+djoser==2.3.3  
+drf-yasg==1.21.10  
+fonttools==4.59.0  
+idna==3.10  
+inflection==0.5.1  
+kombu==5.5.4  
+oauthlib==3.3.1  
+packaging==25.0  
+pdfkit==1.0.0  
+pillow==11.3.0  
+prompt_toolkit==3.0.51  
+pycparser==2.22  
+pydyf==0.11.0  
+PyJWT==2.10.1  
+pyphen==0.17.2  
+python-crontab==3.3.0  
+python-dateutil==2.9.0.post0  
+python3-openid==3.2.0  
+pytz==2025.2  
+PyYAML==6.0.2  
+requests==2.32.4  
+requests-oauthlib==2.0.0  
+six==1.17.0  
+social-auth-app-django==5.5.1  
+social-auth-core==4.7.0  
+sorl-thumbnail==12.11.0  
+sqlparse==0.5.3  
+stripe==12.4.0  
+tinycss2==1.4.0  
+tinyhtml5==2.0.0  
+typing_extensions==4.14.1  
+tzdata==2025.2  
+uritemplate==4.2.0  
+urllib3==2.5.0  
+validators==0.35.0  
+vine==5.1.0  
+wcwidth==0.2.13  
+weasyprint==66.0  
+webencodings==0.5.1  
+zopfli==0.2.3.post1  
 
 
-#### 🧱 Пример модели
+⸻
 
-```python
+🐞 Django Debug Toolbar
+
+The Django Debug Toolbar is used to inspect database queries, cache, signals, and more — a must-have for debugging during development.
+
+⸻
+
+🕓 Django Simple History
+
+Django Simple History tracks changes to model instances over time.
+
+🔍 Why Use It
+	•	🔒 Auditing — who changed what and when
+	•	🧪 Debugging — inspect previous values
+	•	⏪ Recovery — revert to earlier states if needed
+
+🧱 Example Model
+
 from django.db import models
 from simple_history.models import HistoricalRecords
 
@@ -129,18 +123,14 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     history = HistoricalRecords()
-```
 
-#### 🛠 Миграции
+🛠 Migrations
 
-```bash
 python manage.py makemigrations
 python manage.py migrate
-```
 
-#### 🧪 Использование
+🧪 Usage Example
 
-```python
 product = Product.objects.create(name="Phone", price=500)
 product.price = 450
 product.save()
@@ -148,90 +138,80 @@ product.save()
 for record in product.history.all():
     print(record.history_date, record.price)
 
+🖥 Admin Integration
 
-#### 🖥 Поддержка в админке
-
-```python
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 from .models import Product
 
 admin.site.register(Product, SimpleHistoryAdmin)
-```
-"""
-
-### 🔐 Security Best Practices
-
-#### 1. 🌐 django-cors-headers
-
-Позволяет настраивать [CORS (Cross-Origin Resource Sharing)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), 
-чтобы ограничить доступ к API только определённым доменам.
 
 
-📌 Используется для: защиты API от несанкционированного доступа с других доменов.
+⸻
 
----
+🔐 Security Best Practices
 
-#### 2. 🧱 Secure Headers (Безопасные заголовки)
+1. 🌐 django-cors-headers
 
-Django позволяет установить заголовки, которые защищают от XSS, MIME-sniffing и Clickjacking.
+Configure CORS to restrict API access to trusted domains.
 
-Рекомендуемые настройки в `settings.py`:
+2. 🧱 Secure Headers in Django
 
-```python
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
-SECURE_HSTS_SECONDS = 31536000  # включает HSTS для HTTPS
+SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-```
 
-📌 Используется для: повышения защищённости сайта на уровне браузера и протоколов.
+These settings protect your site from XSS, MIME sniffing, clickjacking, and enforce HTTPS.
 
----
+3. 🔐 django-csp
 
-#### 3. 🔐 django-csp
+Content Security Policy (CSP) restricts allowed sources for scripts, styles, and media to prevent XSS and data injection.
 
-[Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) — 
+⸻
 
-📌 Используется для: ограничения источников загрузки скриптов, стилей и другого контента.
+🛠 Adminer in Docker
 
+Adminer is a lightweight alternative to phpMyAdmin, available via Docker.
 
-### 🛠 Adminer в Docker
+🐳 Quick Start
 
-[Adminer](https://www.adminer.org/) — 
-лёгкий веб-интерфейс для работы с базой данных (альтернатива phpMyAdmin).
-
-#### 📦 Добавление в docker-compose
-
-
-```bash
 docker-compose up -d
-```
 
-Adminer будет доступен по адресу: [http://localhost:8080](http://localhost:8080)
+Adminer will be available at http://localhost:8080
 
-#### 🔐 Подключение
+🔐 Connection Info
+	•	System: PostgreSQL / MySQL
+	•	Server: name of your DB service (e.g. db)
+	•	Username / Password: from your Django settings
+	•	Database: your actual database name
 
-- **System**: PostgreSQL или MySQL (в зависимости от вашего `db`)
-- **Server**: имя сервиса из `docker-compose.yml` (например, `db`)
-- **Username** / **Password**: те же, что в `DATABASES` в `settings.py`
-- **Database**: имя вашей базы данных
+⸻
 
-📌 Используется для: быстрого доступа к базе данных из браузера для отладки и разработки.
+🧪 Code Quality Tools
 
-### 🧪 Используемые инструменты качества кода
+The project uses several tools for maintaining code quality:
 
-Проект использует следующие инструменты статического анализа и форматирования:
+Category	Tool	Purpose
+Formatting	black	Auto-formatting of Python code
+Typing	mypy	Static type checking
+Style Guide	flake8	PEP8 compliance and linting
+Code Analysis	pylint	Deep static analysis and code quality
 
-| Категория  | Инструмент | Назначение                                      |
-|------------|------------|--------------------------------------------------|
-| Форматирование | `black`     | Автоматическое форматирование кода |
-| Типизация      | `mypy`      | Проверка типов Python по аннотациям           |
-| Стиль          | `flake8`    | Проверка соблюдения стиля кода (PEP8)         |
-| Анализ         | `pylint`    | Глубокий линтинг и анализ качества кода       |
+These tools are integrated via scripts and CI pipelines for consistency and reliability.
 
-Эти инструменты запускаются через линтер-скрипты и CI для обеспечения единообразного и качественного кода.
+⸻
+
+🔓 Open Source
+
+This project is completely open source and available for contribution, learning, or use in your own applications.
+
+Feel free to fork, star, and contribute!
+
+⸻
+
+Let me know if you want a Docker setup, .env template, or CI configuration included too.
