@@ -1,4 +1,5 @@
 venv_shop_example/
+.idea/
 # Django #
 *.log
 *.pot
