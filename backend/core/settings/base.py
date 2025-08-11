@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # others apps
+    # other apps
     'crispy_forms',
     'crispy_bootstrap5',
     'django_email_verification',
@@ -134,9 +134,9 @@ USE_TZ = True
 # Static, media
 STATIC_URL = 'static/'
 if DEBUG:
-    STATICFILES_DIRS = [
-        BASE_DIR / 'static',
-    ]
+    STATICFILES_DIRS = (
+        BASE_DIR / "static",
+    )
 else:
     STATIC_ROOT = BASE_DIR / 'static'
 
@@ -181,6 +181,14 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# User model
+AUTH_USER_MODEL = "account.User"
+
+# Fonts
+DJANGO_GOOGLE_FONTS = [
+    "Montserrat:wght@300;400",
+]
 
 from core.settings.email import *  # noqa: F401
 from core.settings.drf import *  # noqa: F401
