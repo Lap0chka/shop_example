@@ -184,6 +184,9 @@ MESSAGE_TAGS = {
 
 # User model
 AUTH_USER_MODEL = "account.User"
+LOGOUT_REDIRECT_URL = 'shop:products'
+LOGIN_REDIRECT_URL = 'account:dashboard'
+LOGIN_URL = 'account:login'
 
 # Fonts
 DJANGO_GOOGLE_FONTS = [

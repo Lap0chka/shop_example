@@ -1,15 +1,19 @@
 import logging
+from typing import Type
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.contrib.auth.base_user import AbstractBaseUser
 
 logger = logging.getLogger(__name__)
 
-User = get_user_model()
+User: Type[AbstractBaseUser] = get_user_model()
+
 
 def validate_email_available(value: str) -> None:
     """
-    Validate that the provided email address is not already associated with an existing user.
+    Validate that the provided email address is
+    not already associated with an existing user.
     """
     logger.debug("Validating email availability for: %s", value)
     if User.objects.filter(email__iexact=value).exists():
@@ -17,7 +21,20 @@ def validate_email_available(value: str) -> None:
         raise ValidationError("Email is already in use.")
 
 
-def validate_password_change(user: User, current_password: str, new_password1: str,
+
+def validate_email_is_the_same(old_email: str, new_email: str) -> None:
+    """
+    Validation utilities for user account operations, including email
+    availability, email comparison, and password change verification.
+    """
+    if old_email == new_email:
+        logger.warning(
+            f"Attempted to set the same email: {old_email} == {new_email}",
+        )
+        raise ValidationError("New email and current email are the same.")
+
+
+def validate_password_change(user: AbstractBaseUser, current_password: str, new_password1: str,
                              new_password2: str) -> None:
     """
     Validate a password change request by checking password match, presence of

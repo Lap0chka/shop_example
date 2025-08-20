@@ -7,28 +7,24 @@ from django.db import transaction
 from django_email_verification import send_email
 
 logger = logging.getLogger(__name__)
-User = get_user_model()
 
+from typing import Optional, TYPE_CHECKING
 
-def update_user_email(user: User, new_email: Optional[str]) -> User:
+if TYPE_CHECKING:
+    User = get_user_model()
+
+def update_user_email(user: User, email: Optional[str]) -> User:
     """
     Update user's email and deactivate the account until confirmation.
     This function expects that email validation (format and availability) has been
     performed beforehand.
     """
-    if not new_email:
+    if not email:
         return user
-
-    if user.email == new_email:
-        logger.warning(
-            f"Attempted to set the same email for user_id={user.id}",
-        )
-        raise ValidationError("New email and current email are the same.")
-
     logger.info("Updating email for user id=%s to %s and deactivating until confirmation.",)
 
     with transaction.atomic():
-        user.email = new_email
+        user.email = email
         user.is_active = False
         user.save(update_fields=["email", "is_active"])
         transaction.on_commit(lambda: send_email(user))

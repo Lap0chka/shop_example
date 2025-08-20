@@ -1,47 +1,41 @@
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import get_user_model, logout, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView, View
-from django.views.generic.edit import FormView
+from django.views.generic import DeleteView
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, FormView
+from typing import Type
+from account.forms import UserUpdateForm, CustomUserCreationForm
+from django.contrib.auth.base_user import AbstractBaseUser
 
-from account.forms import UserUpdateForm
-from .forms import UserRegisterForm
 
+User: Type[AbstractBaseUser] = get_user_model()
 
-class UserRegisterView(FormView):
+class UserRegisterView(CreateView):
     template_name = 'account/registration/register.html'
-    form_class = UserRegisterForm
+    form_class = CustomUserCreationForm
     success_url = reverse_lazy('account:email_verification_sent')
 
 
 class CustomLoginView(LoginView):
     template_name = 'account/login/login.html'
     redirect_authenticated_user = True
-    success_url = reverse_lazy('account:dashboard')
-
-
-class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('shop:products')
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/dashboard/dashboard.htm'
-    login_url = 'account:login'
+    template_name = 'account/dashboard/dashboard.html'
 
 
 class UserProfileUpdateView(LoginRequiredMixin, FormView):
     template_name = 'account/dashboard/profile_user.html'
     form_class = UserUpdateForm
     success_url = reverse_lazy('account:dashboard')
-    login_url = 'account:login'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.request.user
+        kwargs['instance'] = self.request
         return kwargs
 
     def form_valid(self, form):
@@ -54,12 +48,15 @@ class UserProfileUpdateView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
 
-class DeleteAccountView(LoginRequiredMixin, View):
-    login_url = 'account:login'
+class DeleteAccountView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'account/dashboard/confirm_delete.html'
+    success_url = reverse_lazy('account:login')
 
-    def post(self, request, *args, **kwargs):
-        request.user.delete()
-        return redirect('shop:index')
+    def get_object(self, queryset=None):
+        return self.request.user
 
-    def get(self, request, *args, **kwargs):
-        return render(request, 'account/dashboard/profile_user.html')
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Your account has been deleted.')
+        logout(request)
+        return super().delete(request, *args, **kwargs)
