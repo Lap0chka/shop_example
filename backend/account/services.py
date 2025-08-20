@@ -1,17 +1,19 @@
 import logging
-from typing import Optional
+from django.contrib.auth import get_user_model
+from typing import Type
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django_email_verification import send_email
+from django.contrib.auth.base_user import AbstractBaseUser
+
 
 logger = logging.getLogger(__name__)
 
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 
-if TYPE_CHECKING:
-    User = get_user_model()
+User: Type[AbstractBaseUser] = get_user_model()
 
 def update_user_email(user: User, email: Optional[str]) -> User:
     """

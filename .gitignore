@@ -251,3 +251,4 @@ media/
 migrations/
 /.qodo/
 /shop_example_venv/
+/todo

@@ -1,0 +1,33 @@
+[flake8]
+max-line-length = 85
+extend-ignore =
+    E203,  # whitespace before ':'
+    E501,  # line too long (handled by black)
+    W503,  # line break before binary operator
+    W504,  # line break after binary operator
+    F401,  # imported but unused
+    F403,  # wildcard import
+    F405,  # name may be undefined, or defined from star imports
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    shop_example_venv,
+    migrations,
+    static,
+    media,
+    node_modules,
+    .tox,
+    .eggs,
+    *.egg,
+    build,
+    dist
+per-file-ignores =
+    __init__.py:F401
+    migrations/*:E501
+    */migrations/*:E501
+    */tests.py:E501
+    */test_*.py:E501
+    *_test.py:E501
+max-complexity = 10
